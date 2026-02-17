@@ -1,11 +1,182 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>自己紹介ページ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* カード */
+    .card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    /* ヘッダー */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .sub {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    /* セクションタイトル */
+    .section-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      margin-top: 20px;
+      color: #374151;
+    }
+
+    /* スキルタグ */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    /* 写真ギャラリー */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      height: 140px;
+    }
+
+    /* リンクボタン */
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .link-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      text-decoration: none;
+      color: #111827;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .link-btn.primary {
+      background: #111827;
+      color: #fff;
+      border-color: #111827;
+    }
+    .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-    <h1>test</h1>
+
+<div class="container">
+
+  <!-- プロフィール -->
+  <div class="card">
+    <div class="header">
+      <img class="avatar" src="picture/PC200086a.JPG" alt="プロフィール写真">
+      <div>
+        <h1>
+            <ruby>
+                松永 悠志
+                <rt>まつなが ゆうじ</rt>
+            </ruby>
+        </h1>
+        <p class="sub">北九州情報ITクリエイター専門学校 <br> 情報IT2年生学科（1年生:2026年2月現在）</p>
+        <p class="sub"></p>
+      </div>
+    </div>
+    <h2 class="section-title">スキル</h2>
+    <div class="tags">
+      <span class="tag">HTML / CSS</span>
+      <span class="tag">Python3 / Django</span>
+      <span class="tag">java</span>
+      <span class="tag">ExcelVBA</span>
+      <span class="tag">AWS</span>
+    </div>
+    <h2 class="section-title">現在取り組んでいること</h2>
+    <ul>
+      <li>Kotolin / Android Studioを勉強中</li>
+      <li>様々なイベントに挑戦中</li>
+      <li>就活</li>
+    </ul>
+    <h2 class="section-title">リンク</h2>
+    <div class="links">
+      <a class="link-btn" href="https://www.instagram.com/MATSUNAGA_YUUJi" target="_blank">Instagram</a>
+      <a class="link-btn" href="https://www.facebook.com/share/1G76EKcM5P/" target="_blank">Face book</a>
+      <a class="link-btn" href="https://github.com/Ma2naga190330" target="_blank">GitHub</a>
+      <a class="link-btn" href="mailto:ktq2590310@stu.o-hara.ac.jp">Mail</a>
+    </div>
+    <h2 class="section-title">参加したイベント一覧</h2>
+    <ul>
+      <li>北九州Techカンファレンスハッカソン2025 / 最優秀賞</li>
+      <li>北九州ゆめみらいワーク2025</li>
+      <li>Python Boot Camp in 北九州</li>
+      <li>第13回 Startup Weekend 北九州 プレイベント</li>
+      <li>第13回 Startup Weekend 北九州</li>
+    </ul>
+  </div>
+</div>
 </body>
 </html>
