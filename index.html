@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>松永 悠志 | ポートフォリオ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +24,7 @@
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent; /* タップ時の青い枠を消す */
     }
 
     body {
@@ -31,38 +32,44 @@
       margin: 0;
       background-color: var(--bg-dark);
       background-image: radial-gradient(rgba(51, 65, 85, 0.3) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background-size: 30px 30px;
       color: var(--text-main);
-      line-height: 1.8;
+      line-height: 1.7;
       overflow-x: hidden;
+      word-wrap: break-word;
     }
 
-    /* マウス追従エフェクト用の要素 */
+    /* 背景エフェクト（モバイルでは控えめに） */
     #cursor-glow {
       position: fixed;
-      width: 400px;
-      height: 400px;
+      width: 300px;
+      height: 300px;
       background: radial-gradient(circle, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
       z-index: 0;
       transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s;
+      display: none; /* デフォルト非表示、PCのみ表示 */
+    }
+
+    @media (min-width: 1024px) {
+      #cursor-glow { display: block; }
     }
 
     .container {
+      width: 100%;
       max-width: 850px;
-      margin: 40px auto;
-      padding: 0 20px;
+      margin: 20px auto;
+      padding: 0 16px;
       position: relative;
       z-index: 1;
     }
 
-    /* 登場アニメーション用のクラス */
+    /* 登場アニメーション */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease-out;
+      transform: translateY(20px);
+      transition: all 0.6s ease-out;
     }
     .reveal.active {
       opacity: 1;
@@ -72,19 +79,19 @@
     /* プロフィールセクション */
     .profile-card {
       background: var(--card-bg);
-      padding: 40px;
-      border-radius: 16px;
+      padding: 30px 20px;
+      border-radius: 20px;
       border: 1px solid var(--border);
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
     .avatar-wrapper {
       position: relative;
-      width: 130px;
-      height: 130px;
-      margin: 0 auto 24px;
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 20px;
     }
 
     .avatar {
@@ -95,15 +102,11 @@
       border: 2px solid var(--border);
       padding: 4px;
       background: var(--bg-dark);
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .avatar:hover {
-      transform: scale(1.1) rotate(5deg);
     }
 
     h1 {
       margin: 10px 0 5px;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: #fff;
     }
@@ -112,55 +115,45 @@
       font-size: 0.45em;
       color: var(--text-sub);
       font-weight: 400;
-      letter-spacing: 0.1em;
     }
 
     .school-info {
       color: var(--primary);
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       margin-bottom: 24px;
       font-weight: 500;
+      line-height: 1.5;
     }
 
     /* セクション共通 */
     .section {
-      background: rgba(30, 41, 59, 0.6);
-      backdrop-filter: blur(12px);
-      padding: 30px;
-      border-radius: 16px;
-      margin-bottom: 24px;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 20px;
+      margin-bottom: 20px;
       border: 1px solid var(--border);
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .section:hover {
-      border-color: var(--primary);
-      transform: translateY(-5px);
     }
 
     .section-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 16px;
       color: var(--primary);
     }
 
     .section-title {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
       margin: 0;
     }
 
-    /* スクロールエリア */
+    /* スクロールエリア（スマホでは少し高さを抑える） */
     .scroll-container {
-      max-height: 240px;
+      max-height: 200px;
       overflow-y: auto;
-      padding-right: 12px;
-    }
-    .scroll-container::-webkit-scrollbar { width: 5px; }
-    .scroll-container::-webkit-scrollbar-thumb {
-      background-color: #475569;
-      border-radius: 10px;
+      padding-right: 8px;
     }
 
     /* リスト項目 */
@@ -168,14 +161,10 @@
     .list-item {
       display: flex;
       align-items: center;
-      gap: 15px;
-      padding: 14px 0;
+      gap: 12px;
+      padding: 12px 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
-      transition: background 0.2s;
-    }
-    .list-item:hover {
-      background: rgba(255, 255, 255, 0.02);
+      font-size: 0.9rem;
     }
     .list-item:last-child { border-bottom: none; }
 
@@ -183,67 +172,82 @@
       background: rgba(96, 165, 250, 0.15);
       color: var(--primary);
       border: 1px solid var(--primary);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: bold;
-      padding: 2px 10px;
+      padding: 2px 8px;
       border-radius: 6px;
       margin-left: auto;
+      white-space: nowrap;
     }
 
     /* スキルタグ */
-    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag {
-      padding: 6px 14px;
-      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text-main);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-      transition: all 0.3s;
-    }
-    .tag:hover {
-      background: var(--primary);
-      color: var(--bg-dark);
-      transform: scale(1.05);
+      border-radius: 10px;
+      font-size: 0.8rem;
     }
 
-    /* リンクボタン */
-    .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    /* リンクボタン (モバイルで2列表示) */
+    .links { 
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    
     .link-btn {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 10px 24px;
-      border-radius: 8px;
+      padding: 12px 10px;
+      border-radius: 12px;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
       border: 1px solid var(--border);
       color: var(--text-main);
       background: var(--bg-dark);
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
-    .link-btn:hover {
+
+    .link-btn.full-width {
+      grid-column: span 2;
+    }
+
+    .link-btn:active {
+      transform: scale(0.95);
       background: var(--primary);
-      border-color: var(--primary);
       color: var(--bg-dark);
     }
 
-    /* グリッドレイアウト */
+    /* グリッドレイアウト (スマホで縦並び) */
     .grid-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
 
-    @media (max-width: 768px) {
-      .grid-layout { grid-template-columns: 1fr; }
+    /* デスクトップ向けの調整 (768px以上) */
+    @media (min-width: 768px) {
+      .container { margin: 60px auto; padding: 0 24px; }
+      .profile-card { padding: 40px; margin-bottom: 30px; }
+      .avatar-wrapper { width: 130px; height: 130px; }
+      h1 { font-size: 2rem; }
+      .school-info { font-size: 0.95rem; }
+      .links { display: flex; justify-content: center; }
+      .link-btn { padding: 10px 24px; min-width: 140px; }
+      .grid-layout { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .section { margin-bottom: 24px; padding: 30px; }
+      .section:hover { border-color: var(--primary); transform: translateY(-5px); }
     }
   </style>
 </head>
 <body>
 
-<!-- マウス追従エフェクト用の背景要素 -->
 <div id="cursor-glow"></div>
 
 <div class="container">
@@ -268,8 +272,8 @@
       <a class="link-btn" href="https://www.instagram.com/MATSUNAGA_YUUJi" target="_blank">
         <i data-lucide="instagram" size="18"></i> Instagram
       </a>
-      <a class="link-btn" href="mailto:ktq2590310@stu.o-hara.ac.jp">
-        <i data-lucide="mail" size="18"></i> メールを送る
+      <a class="link-btn full-width" href="mailto:ktq2590310@stu.o-hara.ac.jp">
+        <i data-lucide="mail" size="18"></i> メールで連絡
       </a>
     </div>
   </header>
@@ -277,31 +281,31 @@
   <!-- 活動実績 -->
   <section class="section reveal">
     <div class="section-header">
-      <i data-lucide="trophy" size="22"></i>
+      <i data-lucide="trophy" size="20"></i>
       <h2 class="section-title">活動・実績</h2>
     </div>
     
     <div class="scroll-container">
       <ul class="item-list">
         <li class="list-item">
-          <i data-lucide="award" size="18" style="color: var(--primary)"></i>
-          <span>北九州Techカンファレンスハッカソン2025</span>
+          <i data-lucide="award" size="16" style="color: var(--primary)"></i>
+          <span>北九州Techハッカソン2025</span>
           <span class="award-badge">最優秀賞</span>
         </li>
         <li class="list-item">
-          <i data-lucide="check-circle" size="18" style="color: var(--text-sub)"></i>
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
           <span>北九州ゆめみらいワーク2025</span>
         </li>
         <li class="list-item">
-          <i data-lucide="check-circle" size="18" style="color: var(--text-sub)"></i>
-          <span>Python Boot Camp in 北九州</span>
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
+          <span>Python Boot Camp</span>
         </li>
         <li class="list-item">
-          <i data-lucide="check-circle" size="18" style="color: var(--text-sub)"></i>
-          <span>第13回 Startup Weekend 北九州 プレイベント</span>
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
+          <span>Startup Weekend 北九州 プレ</span>
         </li>
         <li class="list-item">
-          <i data-lucide="check-circle" size="18" style="color: var(--text-sub)"></i>
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
           <span>第13回 Startup Weekend 北九州</span>
         </li>
       </ul>
@@ -312,8 +316,8 @@
     <!-- スキル -->
     <section class="section reveal">
       <div class="section-header">
-        <i data-lucide="code-2" size="22"></i>
-        <h2 class="section-title">スキル・使用技術</h2>
+        <i data-lucide="code-2" size="20"></i>
+        <h2 class="section-title">スキルセット</h2>
       </div>
       <div class="tags">
         <span class="tag">HTML / CSS</span>
@@ -324,24 +328,24 @@
       </div>
     </section>
 
-    <!-- 現在の状況 -->
+    <!-- 取り組み -->
     <section class="section reveal">
       <div class="section-header">
-        <i data-lucide="rocket" size="22"></i>
-        <h2 class="section-title">現在の取り組み</h2>
+        <i data-lucide="rocket" size="20"></i>
+        <h2 class="section-title">現在の状況</h2>
       </div>
-      <ul class="item-list" style="font-size: 0.9rem;">
-        <li class="list-item" style="border:none; padding: 6px 0;">
+      <ul class="item-list" style="font-size: 0.85rem;">
+        <li class="list-item" style="border:none; padding: 5px 0;">
           <i data-lucide="chevron-right" size="14" style="color:var(--primary)"></i>
-          Kotlin / Androidアプリ開発の学習
+          Kotlin / Androidアプリ開発
         </li>
-        <li class="list-item" style="border:none; padding: 6px 0;">
+        <li class="list-item" style="border:none; padding: 5px 0;">
           <i data-lucide="chevron-right" size="14" style="color:var(--primary)"></i>
-          ハッカソン等のイベントへの積極参加
+          技術イベントへの積極参加
         </li>
-        <li class="list-item" style="border:none; padding: 6px 0;">
+        <li class="list-item" style="border:none; padding: 5px 0;">
           <i data-lucide="chevron-right" size="14" style="color:var(--primary)"></i>
-          就職活動
+          就職活動中
         </li>
       </ul>
     </section>
@@ -350,34 +354,31 @@
 </div>
 
 <script>
-  // アイコンの初期化
   lucide.createIcons();
 
-  // 1. スクロールに合わせてふわっと表示させる機能
   function reveal() {
     const reveals = document.querySelectorAll(".reveal");
     reveals.forEach(element => {
       const windowHeight = window.innerHeight;
       const elementTop = element.getBoundingClientRect().top;
-      const elementVisible = 100;
+      const elementVisible = 80;
       if (elementTop < windowHeight - elementVisible) {
         element.classList.add("active");
       }
     });
   }
 
-  // 2. マウス追従エフェクト
-  const glow = document.getElementById('cursor-glow');
-  document.addEventListener('mousemove', (e) => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-  });
+  // PCのみマウス追従
+  if (window.matchMedia('(min-width: 1024px)').matches) {
+    const glow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', (e) => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+  }
 
-  // 初期実行とイベント登録
   window.addEventListener("scroll", reveal);
   window.addEventListener("load", reveal);
-  
-  // 読み込み完了時に少し遅らせてプロフィールの動きを出す
   setTimeout(reveal, 100);
 </script>
 
