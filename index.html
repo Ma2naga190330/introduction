@@ -24,7 +24,7 @@
 
     * {
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent; /* タップ時の青い枠を消す */
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -39,7 +39,7 @@
       word-wrap: break-word;
     }
 
-    /* 背景エフェクト（モバイルでは控えめに） */
+    /* 背景エフェクト（PCのみ） */
     #cursor-glow {
       position: fixed;
       width: 300px;
@@ -49,7 +49,7 @@
       pointer-events: none;
       z-index: 0;
       transform: translate(-50%, -50%);
-      display: none; /* デフォルト非表示、PCのみ表示 */
+      display: none;
     }
 
     @media (min-width: 1024px) {
@@ -149,9 +149,9 @@
       margin: 0;
     }
 
-    /* スクロールエリア（スマホでは少し高さを抑える） */
+    /* スクロールエリア（表示件数に合わせて高さを低く調整） */
     .scroll-container {
-      max-height: 200px;
+      max-height: 260px; /* 5件分が綺麗に収まる高さ */
       overflow-y: auto;
       padding-right: 8px;
     }
@@ -191,7 +191,7 @@
       font-size: 0.8rem;
     }
 
-    /* リンクボタン (モバイルで2列表示) */
+    /* リンクボタン */
     .links { 
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -214,31 +214,26 @@
       transition: all 0.2s;
     }
 
-    .link-btn.full-width {
-      grid-column: span 2;
-    }
-
     .link-btn:active {
       transform: scale(0.95);
       background: var(--primary);
       color: var(--bg-dark);
     }
 
-    /* グリッドレイアウト (スマホで縦並び) */
+    /* グリッドレイアウト */
     .grid-layout {
       display: grid;
       grid-template-columns: 1fr;
       gap: 20px;
     }
 
-    /* デスクトップ向けの調整 (768px以上) */
     @media (min-width: 768px) {
       .container { margin: 60px auto; padding: 0 24px; }
       .profile-card { padding: 40px; margin-bottom: 30px; }
       .avatar-wrapper { width: 130px; height: 130px; }
       h1 { font-size: 2rem; }
       .school-info { font-size: 0.95rem; }
-      .links { display: flex; justify-content: center; }
+      .links { display: flex; justify-content: center; flex-wrap: wrap; }
       .link-btn { padding: 10px 24px; min-width: 140px; }
       .grid-layout { grid-template-columns: 1fr 1fr; gap: 24px; }
       .section { margin-bottom: 24px; padding: 30px; }
@@ -272,13 +267,16 @@
       <a class="link-btn" href="https://www.instagram.com/MATSUNAGA_YUUJi" target="_blank">
         <i data-lucide="instagram" size="18"></i> Instagram
       </a>
-      <a class="link-btn full-width" href="mailto:ktq2590310@stu.o-hara.ac.jp">
-        <i data-lucide="mail" size="18"></i> メールで連絡
+      <a class="link-btn" href="https://www.facebook.com/share/1G76EKcM5P/" target="_blank">
+        <i data-lucide="facebook" size="18"></i> Facebook
+      </a>
+      <a class="link-btn" href="mailto:ktq2590310@stu.o-hara.ac.jp">
+        <i data-lucide="mail" size="18"></i> メール
       </a>
     </div>
   </header>
 
-  <!-- 活動実績 -->
+  <!-- 活動実績（表示を5件に絞り込み） -->
   <section class="section reveal">
     <div class="section-header">
       <i data-lucide="trophy" size="20"></i>
@@ -308,30 +306,6 @@
           <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
           <span>第13回 Startup Weekend 北九州</span>
         </li>
-        <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span>LEGO × Python (FRC主催)</span>
-        </li>
-        <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span>StepByCode vol.15</span>
-        </li>
-        <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span>COYAGE CAREER FES</span>
-        </li>
-        <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span>生成AIを活用したES作成講座</span>
-        </li>
-        <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span>生成AI × オープンデータハンズオン in 北九州</span>
-        </li>
-        <!-- <li class="list-item">
-          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
-          <span></span>
-        </li> -->
       </ul>
     </div>
   </section>
