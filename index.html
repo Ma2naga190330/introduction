@@ -120,9 +120,16 @@
     .school-info {
       color: var(--primary);
       font-size: 0.85rem;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
       font-weight: 500;
       line-height: 1.5;
+    }
+
+    .organizer-info {
+      color: var(--text-sub);
+      font-size: 0.8rem;
+      margin-bottom: 24px;
+      font-weight: 400;
     }
 
     /* セクション共通 */
@@ -149,11 +156,27 @@
       margin: 0;
     }
 
-    /* スクロールエリア（表示件数に合わせて高さを低く調整） */
+    .section-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    /* スクロールエリア */
     .scroll-container {
-      max-height: 260px; /* 5件分が綺麗に収まる高さ */
+      max-height: 300px;
       overflow-y: auto;
       padding-right: 8px;
+    }
+
+    /* カスタムスクロールバー */
+    .scroll-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 10px;
     }
 
     /* リスト項目 */
@@ -233,6 +256,7 @@
       .avatar-wrapper { width: 130px; height: 130px; }
       h1 { font-size: 2rem; }
       .school-info { font-size: 0.95rem; }
+      .organizer-info { font-size: 0.85rem; }
       .links { display: flex; justify-content: center; flex-wrap: wrap; }
       .link-btn { padding: 10px 24px; min-width: 140px; }
       .grid-layout { grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -259,6 +283,9 @@
       北九州情報ITクリエイター専門学校<br>
       情報IT2年生学科（1年生:2026年2月現在）
     </p>
+    <p class="organizer-info">
+      Startup Weekend 北九州 Organizer
+    </p>
     
     <div class="links">
       <a class="link-btn" href="https://github.com/Ma2naga190330" target="_blank">
@@ -276,11 +303,12 @@
     </div>
   </header>
 
-  <!-- 活動実績（表示を5件に絞り込み） -->
+  <!-- 活動・実績 -->
   <section class="section reveal">
     <div class="section-header">
       <i data-lucide="trophy" size="20"></i>
       <h2 class="section-title">活動・実績</h2>
+      <span class="section-subtitle">（一部抜粋）</span>
     </div>
     
     <div class="scroll-container">
@@ -289,6 +317,18 @@
           <i data-lucide="award" size="16" style="color: var(--primary)"></i>
           <span>北九州Techハッカソン2025</span>
           <span class="award-badge">最優秀賞</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
+          <span>StepByCode vol.16</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="sparkles" size="16" style="color: var(--accent)"></i>
+          <span>生成AI×オープンデータ ハンズオン in 北九州</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
+          <span>StepByCode vol.15</span>
         </li>
         <li class="list-item">
           <i data-lucide="check-circle" size="16" style="color: var(--text-sub)"></i>
@@ -310,8 +350,48 @@
     </div>
   </section>
 
+  <!-- 保有資格・検定 -->
+  <section class="section reveal">
+    <div class="section-header">
+      <i data-lucide="file-badge" size="20"></i>
+      <h2 class="section-title">保有資格・検定</h2>
+    </div>
+    <div class="scroll-container" style="max-height: 200px;">
+      <ul class="item-list">
+        <li class="list-item">
+          <i data-lucide="shield-check" size="16" style="color: var(--primary)"></i>
+          <span>基本情報技術者試験</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="cpu" size="16" style="color: var(--primary)"></i>
+          <span>ITパスポート試験</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="binary" size="16" style="color: var(--primary)"></i>
+          <span>全商 情報処理検定 1級</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="file-text" size="16" style="color: var(--text-sub)"></i>
+          <span>全商 ビジネス文書実務検定 1級</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="briefcase" size="16" style="color: var(--text-sub)"></i>
+          <span>全商 ビジネス計算実務検定 1級</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="calculator" size="16" style="color: var(--text-sub)"></i>
+          <span>全商 簿記実務検定 2級</span>
+        </li>
+        <li class="list-item">
+          <i data-lucide="car" size="16" style="color: var(--text-sub)"></i>
+          <span>普通自動車第一種運転免許</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
   <div class="grid-layout">
-    <!-- スキル -->
+    <!-- スキルセット -->
     <section class="section reveal">
       <div class="section-header">
         <i data-lucide="code-2" size="20"></i>
@@ -319,8 +399,10 @@
       </div>
       <div class="tags">
         <span class="tag">HTML / CSS</span>
-        <span class="tag">Python / Django</span>
+        <span class="tag">Python</span>
+        <span class="tag">Django</span>
         <span class="tag">Java</span>
+        <span class="tag">Servlet / JSP</span>
         <span class="tag">Excel VBA</span>
         <span class="tag">AWS</span>
         <span class="tag">Kotlin</span>
@@ -336,7 +418,7 @@
       <ul class="item-list" style="font-size: 0.85rem;">
         <li class="list-item" style="border:none; padding: 5px 0;">
           <i data-lucide="chevron-right" size="14" style="color:var(--primary)"></i>
-          サーブレット/JSPの学習
+          Git / GitHubの学習
         </li>
         <li class="list-item" style="border:none; padding: 5px 0;">
           <i data-lucide="chevron-right" size="14" style="color:var(--primary)"></i>
