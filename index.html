@@ -131,6 +131,19 @@
       margin-bottom: 24px;
       font-weight: 400;
     }
+    
+    .organizer-info a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 4px;
+      transition: all 0.2s;
+    }
+    
+    .organizer-info a:hover {
+      color: var(--primary);
+      text-decoration-color: var(--primary);
+    }
 
     /* セクション共通 */
     .section {
@@ -225,7 +238,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       padding: 12px 10px;
       border-radius: 12px;
       text-decoration: none;
@@ -235,6 +248,12 @@
       color: var(--text-main);
       background: var(--bg-dark);
       transition: all 0.2s;
+    }
+
+    /* アイコンの色をテキストに強制的に合わせる */
+    .link-btn svg {
+      stroke: currentColor;
+      flex-shrink: 0;
     }
 
     .link-btn:active {
@@ -281,24 +300,25 @@
     </h1>
     <p class="school-info">
       北九州情報ITクリエイター専門学校<br>
-      情報IT2年生学科（1年生:2026年2月現在）
+      情報IT2年生学科（2年生:2026年4月現在）
     </p>
     <p class="organizer-info">
-      Startup Weekend 北九州 Organizer
+      Startup Weekend 北九州 Organizer<br>
+      <a href="https://fukuokarc.org/" target="_blank">NPO法人 FUKUOKA ROBOTICS CHALLENGE メンバー</a>
     </p>
     
     <div class="links">
       <a class="link-btn" href="https://github.com/Ma2naga190330" target="_blank">
-        <i data-lucide="github" size="18"></i> GitHub
+        <i data-lucide="github"></i> GitHub
       </a>
       <a class="link-btn" href="https://www.instagram.com/MATSUNAGA_YUUJi" target="_blank">
-        <i data-lucide="instagram" size="18"></i> Instagram
+        <i data-lucide="instagram"></i> Instagram
       </a>
       <a class="link-btn" href="https://www.facebook.com/share/1G76EKcM5P/" target="_blank">
-        <i data-lucide="facebook" size="18"></i> Facebook
+        <i data-lucide="facebook"></i> Facebook
       </a>
       <a class="link-btn" href="mailto:ktq2590310@stu.o-hara.ac.jp">
-        <i data-lucide="mail" size="18"></i> メール
+        <i data-lucide="mail"></i> メール
       </a>
     </div>
   </header>
@@ -435,7 +455,14 @@
 </div>
 
 <script>
-  lucide.createIcons();
+  // アイコン生成時に色とサイズを明示的に指定
+  lucide.createIcons({
+    attrs: {
+      'stroke-width': 2,
+      'width': 18,
+      'height': 18
+    }
+  });
 
   function reveal() {
     const reveals = document.querySelectorAll(".reveal");
