@@ -19,17 +19,37 @@
       --secondary: #87CEEB; /* SkyBlue */
       --accent: #87CEFA; /* LightSkyBlue */
       
+      /* デフォルトはダークモード */
       --bg-dark: #0a1118;
       --card-bg: #111d29;
       --text-main: #f0f4f8;
       --text-sub: #9ab3c7;
       --border: #2c4257;
+      --glow-opacity: 0.07;
+      --bg-dec-opacity: 0.05;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+      --section-bg: rgba(22, 36, 49, 0.3);
+      --bg-text-opacity: 0.03;
       
       --font-main: 'Noto Sans JP', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
       /* Golden Ratio Constants */
       --phi: 1.618;
+    }
+
+    /* ライトモード用配色設定（同一デザインシステム内） */
+    :root.light-mode {
+      --bg-dark: #f4f7fa;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #cbd5e1;
+      --glow-opacity: 0.04;
+      --bg-dec-opacity: 0.03;
+      --shadow-color: rgba(15, 23, 42, 0.08);
+      --section-bg: rgba(255, 255, 255, 0.8);
+      --bg-text-opacity: 0.05;
     }
 
     * {
@@ -47,6 +67,7 @@
       margin: 0;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
     }
 
     .bg-decoration {
@@ -55,16 +76,17 @@
       right: -5%;
       width: 40vw;
       height: 40vw;
-      background: radial-gradient(circle, rgba(70, 130, 180, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(70, 130, 180, var(--bg-dec-opacity)) 0%, transparent 70%);
       z-index: 0;
       pointer-events: none;
+      transition: background 0.4s ease;
     }
 
     #cursor-glow {
       position: fixed;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(70, 130, 180, 0.07) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(70, 130, 180, var(--glow-opacity)) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
       z-index: 0;
@@ -75,6 +97,47 @@
     @media (min-width: 1024px) {
       #cursor-glow { display: block; }
     }
+
+    /* モード切り替えトグルボタン */
+    .theme-toggle-container {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 10;
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .theme-toggle-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2px;
+    }
+
+    /* ライトモード時は月アイコン、ダークモード時は太陽アイコンを表示 */
+    .theme-toggle-btn .sun-icon { display: block; }
+    .theme-toggle-btn .moon-icon { display: none; }
+    :root.light-mode .theme-toggle-btn .sun-icon { display: none; }
+    :root.light-mode .theme-toggle-btn .moon-icon { display: block; }
 
     .container {
       width: 100%;
@@ -103,9 +166,15 @@
       border: 1px solid var(--border);
       text-align: center;
       margin-bottom: calc(20px * var(--phi));
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 30px 60px var(--shadow-color);
       position: relative;
       overflow: hidden;
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* ライトモード時のプロファイルカードグラデーション調整 */
+    :root.light-mode .profile-card {
+      background: linear-gradient(160deg, var(--card-bg), #f1f5f9);
     }
 
     .avatar-wrapper {
@@ -124,6 +193,7 @@
       border: 1px solid var(--primary);
       padding: 8px;
       background: var(--bg-dark);
+      transition: background 0.4s ease;
     }
 
     h1 {
@@ -139,13 +209,15 @@
       font-weight: 400;
       letter-spacing: 0.5em;
       transform: translateY(-5px);
+      transition: color 0.4s ease;
     }
 
     .school-info {
       font-size: 1rem;
       color: var(--text-main);
       font-weight: 500;
-      margin-bottom: 5px; /* 余白を最適化 */
+      margin-bottom: 5px;
+      transition: color 0.4s ease;
     }
 
     .organizer-info {
@@ -155,6 +227,7 @@
       max-width: 550px;
       margin: 0 auto 40px;
       line-height: 2;
+      transition: color 0.4s ease;
     }
 
     /* NPO法人のテキストリンクを周りのテキストと同色(灰色)に統一 */
@@ -167,8 +240,8 @@
     }
     
     .organizer-info a:hover {
-      color: var(--accent);
-      text-decoration-color: var(--accent);
+      color: var(--primary);
+      text-decoration-color: var(--primary);
     }
 
     /* Links Area */
@@ -197,6 +270,11 @@
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* ライトモード時のボタン背景調整 */
+    :root.light-mode .link-btn {
+      background: rgba(15, 23, 42, 0.02);
+    }
+
     .link-btn:hover {
       background: var(--primary);
       border-color: var(--primary);
@@ -205,10 +283,20 @@
       box-shadow: 0 10px 20px rgba(70, 130, 180, 0.2);
     }
 
+    .link-btn:hover svg {
+      stroke: #ffffff;
+    }
+
     .link-btn svg {
       width: 16px;
       height: 16px;
       stroke-width: 2.5px;
+      stroke: var(--secondary);
+      transition: stroke 0.3s ease;
+    }
+
+    :root.light-mode .link-btn svg {
+      stroke: var(--primary);
     }
 
     /* Grid Layout */
@@ -227,7 +315,7 @@
 
     /* Section Styling & Numbers */
     .section {
-      background: rgba(22, 36, 49, 0.3);
+      background: var(--section-bg);
       backdrop-filter: blur(10px);
       padding: calc(20px * var(--phi));
       border-radius: 30px;
@@ -235,6 +323,7 @@
       border: 1px solid var(--border);
       position: relative;
       overflow: hidden;
+      transition: background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
     }
 
     .section-header {
@@ -254,6 +343,7 @@
       -webkit-text-stroke: 1px var(--primary);
       opacity: 0.6;
       line-height: 1;
+      transition: -webkit-text-stroke 0.4s ease;
     }
 
     .section-title {
@@ -263,6 +353,7 @@
       margin: 0;
       color: var(--text-main);
       position: relative;
+      transition: color 0.4s ease;
     }
 
     .section-title::after {
@@ -273,6 +364,7 @@
       width: 40px;
       height: 2px;
       background: var(--primary);
+      transition: background 0.4s ease;
     }
 
     .section-subtitle {
@@ -280,6 +372,7 @@
       color: var(--text-sub);
       font-weight: 400;
       margin-left: 4px;
+      transition: color 0.4s ease;
     }
 
     /* Scroll container for lists to keep heights consistent */
@@ -294,6 +387,7 @@
     .scroll-container::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 10px;
+      transition: background 0.4s ease;
     }
 
     /* Items */
@@ -304,18 +398,28 @@
       gap: 16px;
       padding: 18px 0;
       border-bottom: 1px solid rgba(44, 66, 87, 0.3);
+      transition: border-bottom 0.4s ease;
+    }
+    :root.light-mode .list-item {
+      border-bottom: 1px solid rgba(203, 213, 225, 0.6);
     }
     .list-item:last-child { border-bottom: none; }
 
     .item-icon {
       color: var(--secondary);
       margin-top: 4px;
+      transition: color 0.4s ease;
+    }
+
+    :root.light-mode .item-icon {
+      color: var(--primary);
     }
 
     .item-content {
       flex-grow: 1;
       font-size: 1rem;
       font-weight: 400;
+      transition: color 0.4s ease;
     }
 
     .award-tag {
@@ -328,6 +432,13 @@
       border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      transition: color 0.4s ease, background 0.4s ease;
+    }
+
+    :root.light-mode .award-tag {
+      color: var(--primary);
+      background: rgba(70, 130, 180, 0.08);
+      border: 1px solid rgba(70, 130, 180, 0.2);
     }
 
     /* Tags */
@@ -340,13 +451,20 @@
       border-radius: 12px;
       font-size: 0.85rem;
       font-family: var(--font-mono);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
+    }
+    :root.light-mode .tag {
+      background: rgba(15, 23, 42, 0.01);
     }
     .tag:hover {
       border-color: var(--secondary);
       color: var(--text-main);
       background: rgba(70, 130, 180, 0.1);
       transform: translateY(-2px);
+    }
+    :root.light-mode .tag:hover {
+      border-color: var(--primary);
+      background: rgba(70, 130, 180, 0.05);
     }
 
     footer {
@@ -357,6 +475,7 @@
       color: var(--text-sub);
       opacity: 0.4;
       letter-spacing: 0.4em;
+      transition: color 0.4s ease;
     }
 
     /* Background large text shadow */
@@ -368,9 +487,10 @@
       font-size: 8rem;
       font-weight: 700;
       color: var(--primary);
-      opacity: 0.03;
+      opacity: var(--bg-text-opacity);
       pointer-events: none;
       user-select: none;
+      transition: opacity 0.4s ease, color 0.4s ease;
     }
   </style>
 </head>
@@ -383,6 +503,14 @@
 
   <!-- Header -->
   <header class="profile-card reveal">
+    <!-- モードトグルボタンの設置 -->
+    <div class="theme-toggle-container">
+      <button class="theme-toggle-btn" id="theme-toggle" aria-label="テーマ切り替え">
+        <i data-lucide="sun" class="sun-icon"></i>
+        <i data-lucide="moon" class="moon-icon"></i>
+      </button>
+    </div>
+
     <div class="avatar-wrapper">
       <img class="avatar" src="picture/PC200086a.JPG" alt="YUJI MATSUNAGA" onerror="this.src='https://ui-avatars.com/api/?name=YM&background=4682B4&color=fff'">
     </div>
@@ -418,6 +546,7 @@
           <span class="section-subtitle">（一部抜粋）</span>
         </div>
         
+        <!-- スクロールコンテナ -->
         <div class="scroll-container">
           <ul class="item-list">
             <li class="list-item">
@@ -459,7 +588,7 @@
           <span class="section-number">02</span>
           <h2 class="section-title">保有資格・検定</h2>
         </div>
-        <!-- 資格スクロールコンテナと全資格リストを完全に復旧 -->
+        <!-- 資格スクロールコンテナ -->
         <div class="scroll-container" style="max-height: 290px;">
           <ul class="item-list">
             <li class="list-item">
@@ -527,6 +656,27 @@
 <script>
   // Initialize Lucide
   lucide.createIcons();
+
+  // Theme Toggle Logic
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const rootElement = document.documentElement;
+
+  // ローカルストレージの保存設定をチェック
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    rootElement.classList.add('light-mode');
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    rootElement.classList.toggle('light-mode');
+    
+    // 現在のテーマ状態をローカルストレージに保存
+    if (rootElement.classList.contains('light-mode')) {
+      localStorage.setItem('theme', 'light');
+    } else {
+      localStorage.setItem('theme', 'dark');
+    }
+  });
 
   // Scroll Reveal with Intersection Observer
   const observer = new IntersectionObserver((entries) => {
