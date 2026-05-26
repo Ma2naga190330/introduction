@@ -98,7 +98,7 @@
     /* Profile Section */
     .profile-card {
       background: linear-gradient(160deg, var(--card-bg), #0a141d);
-      padding: calc(50px * var(--phi)) 20px; /* Padding adjusted */
+      padding: calc(50px * var(--phi)) 20px;
       border-radius: 40px;
       border: 1px solid var(--border);
       text-align: center;
@@ -111,7 +111,7 @@
     .avatar-wrapper {
       width: calc(80px * var(--phi));
       height: calc(80px * var(--phi));
-      margin: 0 auto calc(25px * var(--phi)); /* Increased margin */
+      margin: 0 auto calc(25px * var(--phi));
       position: relative;
       z-index: 2;
     }
@@ -145,7 +145,7 @@
       font-size: 1rem;
       color: var(--text-main);
       font-weight: 500;
-      margin-bottom: 15px;
+      margin-bottom: 5px; /* 余白を最適化 */
     }
 
     .organizer-info {
@@ -157,17 +157,21 @@
       line-height: 2;
     }
 
+    /* NPO法人のテキストリンクを周りのテキストと同色(灰色)に統一 */
     .organizer-info a {
-      color: var(--secondary);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(135, 206, 235, 0.3);
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 4px;
       transition: all 0.3s ease;
     }
+    
     .organizer-info a:hover {
-      border-bottom-color: var(--secondary);
       color: var(--accent);
+      text-decoration-color: var(--accent);
     }
 
+    /* Links Area */
     .links {
       display: flex;
       flex-wrap: wrap;
@@ -183,7 +187,7 @@
       border-radius: 14px;
       text-decoration: none;
       font-size: 0.8rem;
-      font-family: var(--font-mono);
+      font-family: var(--font-mono); /* SNSボタンのフォントを統一 */
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -216,6 +220,7 @@
 
     @media (min-width: 768px) {
       .grid-layout {
+        /* 黄金比によるレイアウト比率 1.618:1 */
         grid-template-columns: var(--phi)fr 1fr;
       }
     }
@@ -268,6 +273,27 @@
       width: 40px;
       height: 2px;
       background: var(--primary);
+    }
+
+    .section-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    /* Scroll container for lists to keep heights consistent */
+    .scroll-container {
+      max-height: 290px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .scroll-container::-webkit-scrollbar {
+      width: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 10px;
     }
 
     /* Items */
@@ -323,28 +349,6 @@
       transform: translateY(-2px);
     }
 
-    /* Vision Detail */
-    .vision-text {
-      font-size: 0.95rem;
-      color: var(--text-sub);
-      line-height: 2;
-      margin-top: 0;
-    }
-
-    .status-badge {
-      margin-top: 25px;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--accent);
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 8px 16px;
-      background: rgba(135, 206, 250, 0.05);
-      border-radius: 30px;
-    }
-
     footer {
       text-align: center;
       margin: 80px 0 40px;
@@ -377,7 +381,7 @@
 
 <div class="container">
 
-  <!-- Header: Removed Visionary / Engineer label -->
+  <!-- Header -->
   <header class="profile-card reveal">
     <div class="avatar-wrapper">
       <img class="avatar" src="picture/PC200086a.JPG" alt="YUJI MATSUNAGA" onerror="this.src='https://ui-avatars.com/api/?name=YM&background=4682B4&color=fff'">
@@ -391,8 +395,7 @@
       <span style="font-weight: 300; font-size: 0.85rem; color: var(--text-sub);">情報IT2年生学科 2年生（2026年4月現在）</span>
     </p>
     <p class="organizer-info">
-      Startup Weekend 北九州 Organizer<br>
-      Startup Weekend 新宮町 Organizer<br>
+      Startup Weekend 北九州 Organizer / Startup Weekend 新宮町 Organizer<br>
       <a href="https://fukuokarc.org/" target="_blank">NPO法人 FUKUOKA ROBOTICS CHALLENGE メンバー</a>
     </p>
     <div class="links">
@@ -412,61 +415,83 @@
         <div class="section-header">
           <span class="section-number">01</span>
           <h2 class="section-title">活動・実績</h2>
+          <span class="section-subtitle">（一部抜粋）</span>
         </div>
         
-        <ul class="item-list">
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="trophy" size="20"></i></div>
-            <div class="item-content">北九州Techハッカソン2025</div>
-            <span class="award-tag">Winner</span>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="code-2" size="20"></i></div>
-            <div class="item-content">NextLocalHeroes</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="code-2" size="20"></i></div>
-            <div class="item-content">StepByCode vol.17 / vol.16 / vol.15</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="cpu" size="20"></i></div>
-            <div class="item-content">生成AI×オープンデータ ハンズオン in 北九州</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="presentation" size="20"></i></div>
-            <div class="item-content">北九州ゆめみらいワーク2025</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="binary" size="20"></i></div>
-            <div class="item-content">Python Boot Camp in 北九州</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="rocket" size="20"></i></div>
-            <div class="item-content">Startup Weekend 北九州</div>
-          </li>
-        </ul>
+        <div class="scroll-container">
+          <ul class="item-list">
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="trophy" size="20"></i></div>
+              <div class="item-content">北九州Techハッカソン2025</div>
+              <span class="award-tag">Winner</span>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="users-2" size="20"></i></div>
+              <div class="item-content">NextLocalHeroes</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="code-2" size="20"></i></div>
+              <div class="item-content">StepByCode vol.17 / vol.16 / vol.15</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="cpu" size="20"></i></div>
+              <div class="item-content">生成AI×オープンデータ ハンズオン in 北九州</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="map-pin" size="20"></i></div>
+              <div class="item-content">北九州ゆめみらいワーク2025</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="binary" size="20"></i></div>
+              <div class="item-content">Python Boot Camp in 北九州</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="rocket" size="20"></i></div>
+              <div class="item-content">Startup Weekend 北九州</div>
+            </li>
+          </ul>
+        </div>
       </section>
 
       <section class="section reveal">
         <span class="section-bg-text">02</span>
         <div class="section-header">
           <span class="section-number">02</span>
-          <h2 class="section-title">保有資格</h2>
+          <h2 class="section-title">保有資格・検定</h2>
         </div>
-        <ul class="item-list">
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="shield-check" size="20"></i></div>
-            <div class="item-content">基本情報技術者 / ITパスポート</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="file-check-2" size="20"></i></div>
-            <div class="item-content">全商 情報処理検定 プログラミング部門 1級</div>
-          </li>
-          <li class="list-item">
-            <div class="item-icon"><i data-lucide="files" size="20"></i></div>
-            <div class="item-content">全商 情報処理検定 ビジネス情報部門 1級</div>
-          </li>
-        </ul>
+        <!-- 資格スクロールコンテナと全資格リストを完全に復旧 -->
+        <div class="scroll-container" style="max-height: 290px;">
+          <ul class="item-list">
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="shield-check" size="20"></i></div>
+              <div class="item-content">基本情報技術者試験 / ITパスポート試験</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="file-check-2" size="20"></i></div>
+              <div class="item-content">全商 情報処理検定 プログラミング部門 1級</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="file-check-2" size="20"></i></div>
+              <div class="item-content">全商 情報処理検定 ビジネス情報部門 1級</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="files" size="20"></i></div>
+              <div class="item-content">全商 ビジネス文書実務検定 1級</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="files" size="20"></i></div>
+              <div class="item-content">全商 ビジネス計算実務検定 1級</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="files" size="20"></i></div>
+              <div class="item-content">全商 簿記実務検定 2級</div>
+            </li>
+            <li class="list-item">
+              <div class="item-icon"><i data-lucide="car" size="20"></i></div>
+              <div class="item-content">普通自動車第一種運転免許</div>
+            </li>
+          </ul>
+        </div>
       </section>
     </div>
 
@@ -486,7 +511,7 @@
           <span class="tag">Kotlin</span>
           <span class="tag">Excel VBA</span>
           <span class="tag">Git / GitHub</span>
-          <span class="tag">go</span>
+          <span class="tag">Go</span>
         </div>
       </section>
     </div>
