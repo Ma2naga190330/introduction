@@ -5,7 +5,16 @@
   <title>松永 悠志 | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- Fonts -->
+  <!-- 初期表示時のチラつき防止スクリプト -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -19,18 +28,21 @@
       --secondary: #87CEEB; /* SkyBlue */
       --accent: #87CEFA; /* LightSkyBlue */
       
-      /* デフォルトはダークモード */
+      /* デフォルト：ダークモード */
       --bg-dark: #0a1118;
       --card-bg: #111d29;
       --text-main: #f0f4f8;
       --text-sub: #9ab3c7;
       --border: #2c4257;
+      --grid-dot-color: rgba(44, 66, 87, 0.5);
+      
       --glow-opacity: 0.07;
       --bg-dec-opacity: 0.05;
       --shadow-color: rgba(0, 0, 0, 0.4);
       --section-bg: rgba(22, 36, 49, 0.3);
       --bg-text-opacity: 0.03;
       
+      --transition-speed: 0.5s;
       --font-main: 'Noto Sans JP', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
@@ -38,13 +50,15 @@
       --phi: 1.618;
     }
 
-    /* ライトモード用配色設定（同一デザインシステム内） */
+    /* ライトモード */
     :root.light-mode {
       --bg-dark: #f4f7fa;
       --card-bg: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
       --border: #cbd5e1;
+      --grid-dot-color: rgba(203, 213, 225, 0.6);
+      
       --glow-opacity: 0.04;
       --bg-dec-opacity: 0.03;
       --shadow-color: rgba(15, 23, 42, 0.08);
@@ -60,14 +74,18 @@
     body {
       font-family: var(--font-main);
       background-color: var(--bg-dark);
-      background-image: radial-gradient(var(--border) 0.5px, transparent 0.5px);
+      /* グリッドドットの色もトランジション対象にするため、CSS変数で定義 */
+      background-image: radial-gradient(var(--grid-dot-color) 0.5px, transparent 0.5px);
       background-size: 40px 40px;
       color: var(--text-main);
       line-height: var(--phi);
       margin: 0;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+      /* すべての基礎カラー、背景の切り替え速度を同期 */
+      transition: background-color var(--transition-speed) ease, 
+                  color var(--transition-speed) ease,
+                  background-image var(--transition-speed) ease;
     }
 
     .bg-decoration {
@@ -79,7 +97,7 @@
       background: radial-gradient(circle, rgba(70, 130, 180, var(--bg-dec-opacity)) 0%, transparent 70%);
       z-index: 0;
       pointer-events: none;
-      transition: background 0.4s ease;
+      transition: background var(--transition-speed) ease;
     }
 
     #cursor-glow {
@@ -98,7 +116,7 @@
       #cursor-glow { display: block; }
     }
 
-    /* モード切り替えトグルボタン */
+    /* テーマ切り替えコンテナ & ボタンの高度なアニメーション */
     .theme-toggle-container {
       position: absolute;
       top: 24px;
@@ -110,13 +128,16 @@
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 10px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow: 0 4px 12px var(--shadow-color);
     }
 
@@ -124,20 +145,42 @@
       background: var(--primary);
       border-color: var(--primary);
       color: #ffffff;
-      transform: scale(1.08);
+      transform: scale(1.08) rotate(15deg);
+    }
+    
+    .theme-toggle-btn:active {
+      transform: scale(0.95);
     }
 
-    .theme-toggle-btn svg {
+    /* アイコンの回転・縮小フェードアウト切り替え */
+    .sun-icon, .moon-icon {
+      position: absolute;
       width: 20px;
       height: 20px;
       stroke-width: 2px;
+      transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ライトモード時は月アイコン、ダークモード時は太陽アイコンを表示 */
-    .theme-toggle-btn .sun-icon { display: block; }
-    .theme-toggle-btn .moon-icon { display: none; }
-    :root.light-mode .theme-toggle-btn .sun-icon { display: none; }
-    :root.light-mode .theme-toggle-btn .moon-icon { display: block; }
+    /* ダークモード時：月が隠れて太陽が出る（回転を伴う） */
+    :root:not(.light-mode) .moon-icon {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.4);
+    }
+    :root:not(.light-mode) .sun-icon {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+
+    /* ライトモード時：太陽が隠れて月が出る */
+    :root.light-mode .sun-icon {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.4);
+    }
+    :root.light-mode .moon-icon {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
 
     .container {
       width: 100%;
@@ -169,14 +212,16 @@
       box-shadow: 0 30px 60px var(--shadow-color);
       position: relative;
       overflow: hidden;
-      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      transition: background var(--transition-speed) ease, 
+                  border-color var(--transition-speed) ease, 
+                  box-shadow var(--transition-speed) ease;
     }
 
-    /* ライトモード時のプロファイルカードグラデーション調整 */
     :root.light-mode .profile-card {
       background: linear-gradient(160deg, var(--card-bg), #f1f5f9);
     }
 
+    /* アバターコンテナ：真のクロスフェード用の２重配置設計 */
     .avatar-wrapper {
       width: calc(80px * var(--phi));
       height: calc(80px * var(--phi));
@@ -193,8 +238,22 @@
       border: 1px solid var(--primary);
       padding: 8px;
       background: var(--bg-dark);
-      transition: background 0.4s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* ２枚を重ねてスムーズにクロスフェード */
+      transition: opacity var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1),
+                  background var(--transition-speed) ease,
+                  border-color var(--transition-speed) ease;
     }
+
+    /* デフォルト(ダーク)状態の表示・非表示 */
+    #avatar-dark { opacity: 1; z-index: 2; }
+    #avatar-light { opacity: 0; z-index: 1; }
+
+    /* ライトモード時の表示・非表示(z-indexと不透明度を入れ替える) */
+    :root.light-mode #avatar-dark { opacity: 0; z-index: 1; }
+    :root.light-mode #avatar-light { opacity: 1; z-index: 2; }
 
     h1 {
       margin: 0 0 20px;
@@ -209,7 +268,7 @@
       font-weight: 400;
       letter-spacing: 0.5em;
       transform: translateY(-5px);
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     .school-info {
@@ -217,7 +276,7 @@
       color: var(--text-main);
       font-weight: 500;
       margin-bottom: 5px;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     .organizer-info {
@@ -227,10 +286,9 @@
       max-width: 550px;
       margin: 0 auto 40px;
       line-height: 2;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
-    /* NPO法人のテキストリンクを周りのテキストと同色(灰色)に統一 */
     .organizer-info a {
       color: inherit;
       text-decoration: underline;
@@ -260,17 +318,19 @@
       border-radius: 14px;
       text-decoration: none;
       font-size: 0.8rem;
-      font-family: var(--font-mono); /* SNSボタンのフォントを統一 */
+      font-family: var(--font-mono);
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       border: 1px solid var(--border);
       color: var(--text-main);
       background: rgba(255, 255, 255, 0.02);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background var(--transition-speed) ease,
+                  border-color 0.3s ease,
+                  color 0.3s ease,
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ライトモード時のボタン背景調整 */
     :root.light-mode .link-btn {
       background: rgba(15, 23, 42, 0.02);
     }
@@ -292,7 +352,7 @@
       height: 16px;
       stroke-width: 2.5px;
       stroke: var(--secondary);
-      transition: stroke 0.3s ease;
+      transition: stroke var(--transition-speed) ease;
     }
 
     :root.light-mode .link-btn svg {
@@ -308,7 +368,6 @@
 
     @media (min-width: 768px) {
       .grid-layout {
-        /* 黄金比によるレイアウト比率 1.618:1 */
         grid-template-columns: var(--phi)fr 1fr;
       }
     }
@@ -323,7 +382,9 @@
       border: 1px solid var(--border);
       position: relative;
       overflow: hidden;
-      transition: background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+      transition: background var(--transition-speed) ease, 
+                  border-color var(--transition-speed) ease, 
+                  transform 0.3s ease;
     }
 
     .section-header {
@@ -343,7 +404,7 @@
       -webkit-text-stroke: 1px var(--primary);
       opacity: 0.6;
       line-height: 1;
-      transition: -webkit-text-stroke 0.4s ease;
+      transition: -webkit-text-stroke var(--transition-speed) ease;
     }
 
     .section-title {
@@ -353,7 +414,7 @@
       margin: 0;
       color: var(--text-main);
       position: relative;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     .section-title::after {
@@ -364,7 +425,7 @@
       width: 40px;
       height: 2px;
       background: var(--primary);
-      transition: background 0.4s ease;
+      transition: background var(--transition-speed) ease;
     }
 
     .section-subtitle {
@@ -372,7 +433,7 @@
       color: var(--text-sub);
       font-weight: 400;
       margin-left: 4px;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     /* Scroll container for lists to keep heights consistent */
@@ -387,7 +448,7 @@
     .scroll-container::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 10px;
-      transition: background 0.4s ease;
+      transition: background var(--transition-speed) ease;
     }
 
     /* Items */
@@ -398,7 +459,7 @@
       gap: 16px;
       padding: 18px 0;
       border-bottom: 1px solid rgba(44, 66, 87, 0.3);
-      transition: border-bottom 0.4s ease;
+      transition: border-bottom var(--transition-speed) ease;
     }
     :root.light-mode .list-item {
       border-bottom: 1px solid rgba(203, 213, 225, 0.6);
@@ -408,7 +469,7 @@
     .item-icon {
       color: var(--secondary);
       margin-top: 4px;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     :root.light-mode .item-icon {
@@ -419,7 +480,7 @@
       flex-grow: 1;
       font-size: 1rem;
       font-weight: 400;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     .award-tag {
@@ -432,7 +493,7 @@
       border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      transition: color 0.4s ease, background 0.4s ease;
+      transition: color var(--transition-speed) ease, background var(--transition-speed) ease;
     }
 
     :root.light-mode .award-tag {
@@ -451,7 +512,10 @@
       border-radius: 12px;
       font-size: 0.85rem;
       font-family: var(--font-mono);
-      transition: all 0.3s ease;
+      transition: background var(--transition-speed) ease,
+                  color 0.3s ease,
+                  border-color 0.3s ease,
+                  transform 0.3s ease;
     }
     :root.light-mode .tag {
       background: rgba(15, 23, 42, 0.01);
@@ -475,7 +539,7 @@
       color: var(--text-sub);
       opacity: 0.4;
       letter-spacing: 0.4em;
-      transition: color 0.4s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     /* Background large text shadow */
@@ -490,7 +554,7 @@
       opacity: var(--bg-text-opacity);
       pointer-events: none;
       user-select: none;
-      transition: opacity 0.4s ease, color 0.4s ease;
+      transition: opacity var(--transition-speed) ease, color var(--transition-speed) ease;
     }
   </style>
 </head>
@@ -503,7 +567,7 @@
 
   <!-- Header -->
   <header class="profile-card reveal">
-    <!-- モードトグルボタンの設置 -->
+    <!-- モード切り替えトグルの設置 -->
     <div class="theme-toggle-container">
       <button class="theme-toggle-btn" id="theme-toggle" aria-label="テーマ切り替え">
         <i data-lucide="sun" class="sun-icon"></i>
@@ -511,8 +575,10 @@
       </button>
     </div>
 
+    <!-- アバター：絶対配置によるシームレスクロスフェード構造 -->
     <div class="avatar-wrapper">
-      <img class="avatar" src="picture/PC200086a.JPG" alt="YUJI MATSUNAGA" onerror="this.src='https://ui-avatars.com/api/?name=YM&background=4682B4&color=fff'">
+      <img id="avatar-dark" class="avatar" src="picture/PC200086a.JPG" alt="YUJI MATSUNAGA (Dark)">
+      <img id="avatar-light" class="avatar" src="picture/PC200086a_light.JPG" alt="YUJI MATSUNAGA (Light)">
     </div>
     
     <h1>
@@ -546,7 +612,6 @@
           <span class="section-subtitle">（一部抜粋）</span>
         </div>
         
-        <!-- スクロールコンテナ -->
         <div class="scroll-container">
           <ul class="item-list">
             <li class="list-item">
@@ -588,7 +653,6 @@
           <span class="section-number">02</span>
           <h2 class="section-title">保有資格・検定</h2>
         </div>
-        <!-- 資格スクロールコンテナ -->
         <div class="scroll-container" style="max-height: 290px;">
           <ul class="item-list">
             <li class="list-item">
@@ -624,7 +688,7 @@
       </section>
     </div>
 
-    <!-- Minor Column: Skills & Info -->
+    <!-- Minor Column: Skills -->
     <div class="column">
       <section class="section reveal">
         <span class="section-bg-text">03</span>
@@ -657,21 +721,30 @@
   // Initialize Lucide
   lucide.createIcons();
 
+  // アバター画像とフォールバック画像設定
+  const avatarDark = document.getElementById('avatar-dark');
+  const avatarLight = document.getElementById('avatar-light');
+
+  const darkFallback = "https://ui-avatars.com/api/?name=YM&background=4682B4&color=fff";
+  const lightFallback = "https://ui-avatars.com/api/?name=YM&background=cbd5e1&color=0f172a";
+
+  // 画像ロード失敗時のハンドラ登録
+  avatarDark.onerror = function() { this.src = darkFallback; };
+  avatarLight.onerror = function() { this.src = lightFallback; };
+
+  // 事前プリロード
+  const lightPreload = new Image();
+  lightPreload.src = "picture/PC200086a_light.JPG";
+
   // Theme Toggle Logic
   const themeToggleBtn = document.getElementById('theme-toggle');
   const rootElement = document.documentElement;
 
-  // ローカルストレージの保存設定をチェック
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') {
-    rootElement.classList.add('light-mode');
-  }
-
   themeToggleBtn.addEventListener('click', () => {
     rootElement.classList.toggle('light-mode');
+    const isLightMode = rootElement.classList.contains('light-mode');
     
-    // 現在のテーマ状態をローカルストレージに保存
-    if (rootElement.classList.contains('light-mode')) {
+    if (isLightMode) {
       localStorage.setItem('theme', 'light');
     } else {
       localStorage.setItem('theme', 'dark');
